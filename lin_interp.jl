@@ -22,8 +22,7 @@ module MyLinInterp
     out = Array(Float64, n)
 
     for i in 1:n
-        interpolated_value = a(x[i])
-        out[i] = interpolated_value
+        out[i] = a(x[i])
     end
 
     return out
