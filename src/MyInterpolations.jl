@@ -12,6 +12,9 @@ module MyInterpolations
     if i == 0 || ( i == length(f.grid) && f.grid[end] !=  x )
         return 0
  　　end
+    if x == f.grid[end]
+        return f.vals[end] 
+    end
     interpolated_value = (f.vals[i+1]-f.vals[i])/(f.grid[i+1]-f.grid[i])*(x-f.grid[i])+f.vals[i]
     return interpolated_value
 　　　
