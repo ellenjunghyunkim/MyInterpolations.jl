@@ -1,4 +1,4 @@
-module MyInterpolations
+module MyLinInterp
 
   export LinearInterpolation
 
@@ -7,22 +7,26 @@ module MyInterpolations
     vals::Array
 　end
 
-　function (a::LinearInterpolation)(x::Real)
-    i = searchsortedlast(grid, x)
-    if i == 0 || i == length(grid)
+　function Base.call(a::LinearInterpolation, x::Real)
+    i = searchsortedlast(a.grid, x)
+    if i == 0 || i == length(a.grid)
         return 0
  　　end
-    interpolated_value = (vals[i+1]-vals[i])/(grid[i+1]-grid[i])*(x-grid[i])+vals[i]
+    interpolated_value = (a.vals[i+1]-a.vals[i])/(a.grid[i+1]-a.grid[i])*(x-a.grid[i])+a.vals[i]
     return interpolated_value
 　　　
 　end
 
-　function func{T<:Real}(x::AbstractVector{T})
-        y = zeros(length(x))
-        for i in 1:length(x)
-            y[i] = func(x[i])
-        end
-        return y
+　function Base.call{T<:Real}(a::LinearInterpolation, x::AbstractVector{T})
+    n = length(x)
+    out = Array(Float64, n)
+
+    for i in 1:n
+        out[i] = a(x[i])
     end
+
+    return out
+　end
+　　
 
 end
